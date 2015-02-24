@@ -23,8 +23,7 @@ defmodule HardwareZone.HardwaresController do
       hardware = Repo.insert(changeset)
       redirect conn, to: hardwares_path(conn, :show, hardware.id)
     else
-      hardware = Map.merge(%Hardware{}, params)
-      # want the form to repopular but the Map.merge wont' work unless I symbolize the keys
+      hardware = Ecto.Changeset.apply(changeset)
       render conn, "new.html", hardware: hardware, errors: changeset.errors
     end
   end
