@@ -22,12 +22,19 @@ defmodule HardwareZone.HardwaresController do
       hardware = Repo.insert(changeset)
       redirect conn, to: hardwares_path(conn, :show, hardware.id)
     else
-      IO.puts "HI"
-      IO.inspect params
-      IO.puts "HI2"
       hardware = Map.merge(%Hardware{}, params)
       render conn, "new.html", hardware: hardware
     end
   end
+
+  def show(conn, %{"id" => id}) do
+    case hardware = Repo.get(Hardware, id) do
+      hardware when is_map(hardware) ->
+        render conn, "show.html", hardware: hardware
+      _ ->
+        redirect conn, to: hardwares_path(conn, :index)
+    end
+  end
+  
 
 end
