@@ -8,4 +8,10 @@ defmodule HardwareZone.Hardware do
     field :manufacturer, :string
     field :sale_contact_number, :string
   end
+
+  def changeset(hardware, params \\ nil) do
+    params
+    |> cast(hardware, ~w(name description), ~w(manufacturer sale_contact_number))
+  end
+  
 end

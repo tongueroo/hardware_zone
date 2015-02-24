@@ -2,7 +2,7 @@
   <%= for hardware <- @hardwares do %>
     <div class="col-xs-6 col-md-4">
       <div class='hardware-box'
-           data-url='<%= hardwares_path(:show, hardware.id) %>'>
+           data-url='<%= hardwares_path(@conn, :show, hardware.id) %>'>
         <div class='title'><%= hardware.name %></div>
         <div class='manufacturer'><%= hardware.manufacturer %></div>
         <div class='description'><%= hardware.description %></div>

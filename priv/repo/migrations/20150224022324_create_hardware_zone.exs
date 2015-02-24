@@ -8,7 +8,7 @@ defmodule HardwareZone.Repo.Migrations.CreateHardwareZone do
       add :manufacturer, :string
       add :sale_contact_number, :string
 
-      timestamps
+      # timestamps
     end
   end
 
