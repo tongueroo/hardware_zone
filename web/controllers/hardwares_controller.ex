@@ -16,7 +16,6 @@ defmodule HardwareZone.HardwaresController do
   end
 
   def create(conn, %{"hardware" => params}) do
-      IO.inspect params
     changeset = Hardware.changeset %Hardware{}, params
 
     if changeset.valid? do
@@ -46,4 +45,30 @@ defmodule HardwareZone.HardwaresController do
     end
   end
 
+  def update(conn, %{"id" => id, "hardware" => params}) do
+    case Repo.get(Hardware, id) do
+      hardware when is_map(hardware) ->
+        changeset = Hardware.changeset Repo.get(Hardware, id), params
+
+        if changeset.valid? do
+          Repo.update(changeset)
+          redirect conn, to: hardwares_path(conn, :show, hardware.id)
+        else
+          hardware = Ecto.Changeset.apply(changeset)
+          render conn, "edit.html", hardware: hardware, errors: changeset.errors
+        end
+       _ ->
+       redirect conn, to: hardwares_path(conn, :index)
+    end
+  end
+
+  def delete(conn, %{"id" => id}) do
+    case Repo.get(Hardware, id) do
+      hardware when is_map(hardware) ->
+        Repo.delete(hardware)
+        redirect conn, to: hardwares_path(conn, :index)
+      _ ->
+        redirect conn, to: hardwares_path(conn, :index)
+    end
+  end
 end
