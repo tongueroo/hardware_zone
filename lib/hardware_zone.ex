@@ -9,8 +9,7 @@ defmodule HardwareZone do
     children = [
       # Start the endpoint when the application starts
       supervisor(HardwareZone.Endpoint, []),
-      # Here you could define other workers and supervisors as children
-      # worker(HardwareZone.Worker, [arg1, arg2, arg3]),
+      worker(HardwareZone.Repo, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

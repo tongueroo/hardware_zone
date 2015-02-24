@@ -15,9 +15,10 @@ defmodule HardwareZone.Router do
   scope "/", HardwareZone do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
+    get "/", HardwaresController, :index, as: :root
+    resources "/hardwares", HardwaresController
   end
-
+ 
   # Other scopes may use custom stacks.
   # scope "/api", HardwareZone do
   #   pipe_through :api
