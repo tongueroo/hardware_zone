@@ -16,6 +16,7 @@ defmodule HardwareZone.HardwaresController do
   end
 
   def create(conn, %{"hardware" => params}) do
+      IO.inspect params
     changeset = Hardware.changeset %Hardware{}, params
 
     if changeset.valid? do
@@ -23,7 +24,8 @@ defmodule HardwareZone.HardwaresController do
       redirect conn, to: hardwares_path(conn, :show, hardware.id)
     else
       hardware = Map.merge(%Hardware{}, params)
-      render conn, "new.html", hardware: hardware
+      # want the form to repopular but the Map.merge wont' work unless I symbolize the keys
+      render conn, "new.html", hardware: hardware, errors: changeset.errors
     end
   end
 
@@ -36,5 +38,13 @@ defmodule HardwareZone.HardwaresController do
     end
   end
   
+  def edit(conn, %{"id" => id}) do
+    case Repo.get(Hardware, id) do
+      hardware when is_map(hardware) ->
+        render conn, "edit.html", hardware: hardware
+      _ ->
+        redirect conn, to: hardwares_path(conn, :index)
+    end
+  end
 
 end
